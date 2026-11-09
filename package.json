@@ -1,0 +1,70 @@
+{
+  "name": "software-project-analyzer",
+  "productName": "Software Project Analyzer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A local-first desktop workspace for generating software project ideas and analyzing existing projects.",
+  "author": "Software Project Analyzer",
+  "license": "MIT",
+  "main": "dist-electron/electron/main.js",
+  "scripts": {
+    "dev": "npm run build:main && node scripts/dev.mjs",
+    "build": "npm run build:main && npm run build:web",
+    "build:main": "tsc -p tsconfig.node.json",
+    "build:web": "vite build",
+    "start": "npm run build && electron .",
+    "dist": "npm run build && electron-builder --win",
+    "dist:dir": "npm run build && electron-builder --win --dir",
+    "typecheck": "tsc -p tsconfig.node.json --noEmit && tsc -p tsconfig.json --noEmit",
+    "icon": "node scripts/make-icon.mjs"
+  },
+  "build": {
+    "appId": "com.softwareprojectanalyzer.app",
+    "productName": "Software Project Analyzer",
+    "executableName": "software-project-analyzer",
+    "copyright": "Copyright © 2026 Software Project Analyzer",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "package.json",
+      "!**/*.map"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "Software Project Analyzer",
+      "artifactName": "software-project-analyzer-v${version}-windows-${arch}.${ext}"
+    }
+  },
+  "dependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "electron": "^45.2.3",
+    "electron-builder": "^26.18.0",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.6"
+  }
+}
